@@ -1,4 +1,4 @@
-import { Movie, Plan } from '@/types';
+import { Movie, Plan, UserProfile, WatchHistoryItem, UserDevice } from '@/types';
 
 export const HERO_MOVIES: Movie[] = [
   {
@@ -305,5 +305,77 @@ export const FAQ_LIST = [
     question: 'StreamHub có an toàn cho trẻ em không?',
     answer:
       'Có. Chúng tôi cung cấp chế độ StreamHub Kids riêng biệt với nội dung thân thiện được kiểm duyệt kỹ càng cùng tính năng khóa phụ huynh bằng mã PIN an toàn.',
+  },
+];
+
+export const MOCK_USER: UserProfile = {
+  id: 'usr-001',
+  name: 'Vũ Bảo Khánh',
+  email: 'baokhanh.streamhub@gmail.com',
+  avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
+  phone: '0988 123 456',
+  createdAt: '2024-01-15T08:00:00.000Z',
+  isVip: true,
+  vipPlanName: 'Gói VIP Premium (4K Ultra HD)',
+  vipExpiresAt: '2026-12-31',
+};
+
+export const MOCK_WATCH_HISTORY: WatchHistoryItem[] = [
+  {
+    id: 'wh-1',
+    movie: HERO_MOVIES[0], // Dune 2
+    progressPercent: 72,
+    lastWatchedAt: 'Hôm nay',
+  },
+  {
+    id: 'wh-2',
+    movie: HERO_MOVIES[1], // Arcane Season 2
+    progressPercent: 45,
+    lastWatchedAt: 'Hôm qua',
+    currentEpisode: 4,
+  },
+  {
+    id: 'wh-3',
+    movie: RECOMMENDED_MOVIES[0], // Deadpool & Wolverine
+    progressPercent: 90,
+    lastWatchedAt: '3 ngày trước',
+  },
+  {
+    id: 'wh-4',
+    movie: SERIES_MOVIES[0], // Stranger Things 4
+    progressPercent: 28,
+    lastWatchedAt: 'Tuần trước',
+    currentEpisode: 2,
+  },
+];
+
+export const MOCK_DEVICES: UserDevice[] = [
+  {
+    id: 'dev-1',
+    deviceName: 'iPhone 16 Pro Max',
+    deviceType: 'phone',
+    lastActive: 'Đang hoạt động',
+    isCurrentDevice: true,
+  },
+  {
+    id: 'dev-2',
+    deviceName: 'iPad Pro M4 13-inch',
+    deviceType: 'tablet',
+    lastActive: '2 giờ trước',
+    isCurrentDevice: false,
+  },
+  {
+    id: 'dev-3',
+    deviceName: 'Samsung QLED 4K 65"',
+    deviceType: 'tv',
+    lastActive: 'Hôm qua',
+    isCurrentDevice: false,
+  },
+  {
+    id: 'dev-4',
+    deviceName: 'MacBook Pro M3 Max',
+    deviceType: 'web',
+    lastActive: '3 ngày trước',
+    isCurrentDevice: false,
   },
 ];

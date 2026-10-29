@@ -2,38 +2,77 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Sparkles, ChevronRight, Zap } from 'lucide-react-native';
 import { StreamHubColors, Spacing, Typography, BorderRadius } from '@/constants/theme';
+import { useTheme } from '@/hooks';
 
 interface VipBannerCardProps {
   onUpgradePress?: () => void;
 }
 
 export function VipBannerCard({ onUpgradePress }: VipBannerCardProps) {
+  const { isDark } = useTheme();
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
         activeOpacity={0.88}
         onPress={onUpgradePress}
-        style={styles.card}
+        style={[
+          styles.card,
+          !isDark && {
+            backgroundColor: '#FFFBEB',
+            borderColor: 'rgba(245, 158, 11, 0.4)',
+            shadowColor: '#F59E0B',
+            shadowOpacity: 0.15,
+            shadowRadius: 10,
+            elevation: 3,
+          },
+        ]}
       >
         {/* Glow decoration */}
-        <View style={styles.glow} />
+        <View
+          style={[
+            styles.glow,
+            !isDark && { backgroundColor: 'rgba(251, 191, 36, 0.25)' },
+          ]}
+        />
 
         <View style={styles.contentRow}>
           {/* Left Icon */}
-          <View style={styles.iconBox}>
-            <Sparkles size={20} color={StreamHubColors.vip} />
+          <View
+            style={[
+              styles.iconBox,
+              !isDark && {
+                backgroundColor: 'rgba(251, 191, 36, 0.25)',
+                borderColor: 'rgba(245, 158, 11, 0.35)',
+              },
+            ]}
+          >
+            <Sparkles size={20} color={isDark ? StreamHubColors.vip : '#D97706'} />
           </View>
 
           {/* Center Info */}
           <View style={styles.info}>
             <View style={styles.badgeRow}>
-              <Text style={styles.title}>StreamHub VIP</Text>
+              <Text
+                style={[
+                  styles.title,
+                  !isDark && { color: '#0F172A' },
+                ]}
+              >
+                StreamHub VIP
+              </Text>
               <View style={styles.tag}>
                 <Zap size={9} color={StreamHubColors.primary} />
                 <Text style={styles.tagText}>Từ 59K/tháng</Text>
               </View>
             </View>
-            <Text style={styles.subtitle} numberOfLines={1}>
+            <Text
+              style={[
+                styles.subtitle,
+                !isDark && { color: '#78350F' },
+              ]}
+              numberOfLines={1}
+            >
               4K Ultra HD • Không quảng cáo • Tải ngoại tuyến
             </Text>
           </View>

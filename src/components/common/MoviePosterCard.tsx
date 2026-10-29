@@ -9,6 +9,7 @@ import { Image } from 'expo-image';
 import { Star, Sparkles } from 'lucide-react-native';
 import { Movie } from '@/types';
 import { StreamHubColors, Typography, BorderRadius } from '@/constants/theme';
+import { useTheme } from '@/hooks';
 
 interface MoviePosterCardProps {
   movie: Movie;
@@ -21,6 +22,7 @@ export function MoviePosterCard({
   onPress,
   width = 118,
 }: MoviePosterCardProps) {
+  const { theme, isDark } = useTheme();
   const height = Math.round(width * 1.5);
 
   return (
@@ -30,7 +32,19 @@ export function MoviePosterCard({
       style={[styles.container, { width }]}
     >
       {/* Poster Image Container */}
-      <View style={[styles.posterWrapper, { height }]}>
+      <View
+        style={[
+          styles.posterWrapper,
+          { height, borderColor: theme.border },
+          !isDark && {
+            shadowColor: '#000000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.08,
+            shadowRadius: 4,
+            elevation: 2,
+          },
+        ]}
+      >
         <Image
           source={{ uri: movie.posterUrl || movie.backdropUrl }}
           style={styles.image}
@@ -67,7 +81,7 @@ export function MoviePosterCard({
       </View>
 
       {/* Movie Title */}
-      <Text style={styles.title} numberOfLines={1}>
+      <Text style={[styles.title, { color: theme.text }]} numberOfLines={1}>
         {movie.title}
       </Text>
     </TouchableOpacity>

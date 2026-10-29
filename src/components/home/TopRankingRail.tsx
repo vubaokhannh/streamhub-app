@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Image } from 'expo-image';
+import { Sparkles, Star } from 'lucide-react-native';
 import { Movie } from '@/types';
 import { StreamHubColors, Spacing, Typography, BorderRadius } from '@/constants/theme';
+import { useTheme } from '@/hooks';
 
 interface TopRankingRailProps {
   movies: Movie[];
@@ -16,6 +18,8 @@ interface TopRankingRailProps {
 }
 
 export function TopRankingRail({ movies, onMoviePress }: TopRankingRailProps) {
+  const { theme, isDark } = useTheme();
+
   if (!movies || movies.length === 0) return null;
 
   return (
@@ -23,7 +27,7 @@ export function TopRankingRail({ movies, onMoviePress }: TopRankingRailProps) {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.accentBar} />
-        <Text style={styles.title}>Top Thịnh Hành Hôm Nay</Text>
+        <Text style={[styles.title, { color: theme.text }]}>Top Thịnh Hành Hôm Nay</Text>
       </View>
 
       {/* Horizontal Rail */}
@@ -33,27 +37,44 @@ export function TopRankingRail({ movies, onMoviePress }: TopRankingRailProps) {
         contentContainerStyle={styles.scrollList}
       >
         {movies.slice(0, 10).map((movie, index) => {
-          const rank = index + 1;
           return (
             <TouchableOpacity
-              key={movie.id}
-              activeOpacity={0.8}
+              key={`${movie.id}-top-${index}`}
+              activeOpacity={0.82}
               onPress={() => onMoviePress?.(movie)}
               style={styles.cardItem}
             >
-              {/* Oversized Rank Number */}
-              <View style={styles.rankWrapper}>
-                <Text style={styles.rankText}>{rank}</Text>
-              </View>
-
               {/* Poster Card */}
-              <View style={styles.poster}>
+              <View
+                style={[
+                  styles.poster,
+                  {
+                    backgroundColor: theme.card,
+                    borderColor: theme.border,
+                  },
+                  !isDark && styles.posterLight,
+                ]}
+              >
                 <Image
                   source={{ uri: movie.posterUrl || movie.backdropUrl }}
                   style={styles.image}
                   contentFit="cover"
                   transition={250}
                 />
+
+                {/* VIP Tag */}
+                {movie.isPremium ? (
+                  <View style={styles.vipBadge}>
+                    <Sparkles size={8} color="#000000" />
+                    <Text style={styles.vipText}>VIP</Text>
+                  </View>
+                ) : null}
+
+                {/* Rating Badge at Bottom */}
+                <View style={styles.ratingBadge}>
+                  <Star size={10} color="#FBBF24" fill="#FBBF24" />
+                  <Text style={styles.ratingText}>{movie.rating.toFixed(1)}</Text>
+                </View>
               </View>
             </TouchableOpacity>
           );
@@ -83,7 +104,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: Typography.size.sm + 1,
     fontWeight: Typography.weight.bold,
-    color: '#FFFFFF',
     textTransform: 'uppercase',
     letterSpacing: 0.6,
   },
@@ -92,38 +112,67 @@ const styles = StyleSheet.create({
     gap: Spacing.sm,
   },
   cardItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    width: 140,
-    height: 165,
-    position: 'relative',
-  },
-  rankWrapper: {
-    position: 'absolute',
-    left: -6,
-    bottom: -14,
-    zIndex: 1,
-  },
-  rankText: {
-    fontSize: 82,
-    fontWeight: Typography.weight.heavy,
-    color: 'rgba(255, 255, 255, 0.12)',
-    fontFamily: 'monospace',
-    letterSpacing: -6,
+    width: 120,
+    height: 172,
   },
   poster: {
-    width: 110,
-    height: 155,
+    width: '100%',
+    height: '100%',
     borderRadius: BorderRadius.md,
     overflow: 'hidden',
-    marginLeft: 26,
-    backgroundColor: '#0E1428',
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
-    zIndex: 2,
+    position: 'relative',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.35,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  posterLight: {
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 5,
+    elevation: 2,
   },
   image: {
     width: '100%',
     height: '100%',
+  },
+  vipBadge: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+    backgroundColor: StreamHubColors.vip,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    borderRadius: 3,
+  },
+  vipText: {
+    color: '#000000',
+    fontSize: 8,
+    fontWeight: Typography.weight.heavy,
+  },
+  ratingBadge: {
+    position: 'absolute',
+    bottom: 6,
+    left: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    backgroundColor: 'rgba(0, 0, 0, 0.68)',
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: 'rgba(255, 255, 255, 0.15)',
+  },
+  ratingText: {
+    color: '#FBBF24',
+    fontSize: Typography.size.xs,
+    fontWeight: Typography.weight.bold,
   },
 });

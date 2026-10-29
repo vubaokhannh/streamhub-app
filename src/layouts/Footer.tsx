@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Home, Compass, Tv, Sparkles, User } from 'lucide-react-native';
 import { StreamHubColors, Typography } from '@/constants/theme';
+import { useTheme } from '@/hooks';
 
 export type BottomTabKey = 'home' | 'explore' | 'series' | 'vip' | 'profile';
 
@@ -11,6 +12,8 @@ export interface FooterProps {
 }
 
 export function Footer({ activeTab = 'home', onTabChange }: FooterProps) {
+  const { theme, isDark } = useTheme();
+
   const tabs = [
     { key: 'home' as BottomTabKey, label: 'Trang chủ', icon: Home },
     { key: 'explore' as BottomTabKey, label: 'Khám phá', icon: Compass },
@@ -20,11 +23,19 @@ export function Footer({ activeTab = 'home', onTabChange }: FooterProps) {
   ];
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: isDark ? 'rgba(5, 8, 22, 0.96)' : 'rgba(255, 255, 255, 0.98)',
+          borderTopColor: theme.border,
+        },
+      ]}
+    >
       {tabs.map((tab) => {
         const isActive = activeTab === tab.key;
         const IconComponent = tab.icon;
-        const color = isActive ? StreamHubColors.primary : '#64748B';
+        const color = isActive ? StreamHubColors.primary : (isDark ? '#64748B' : '#94A3B8');
 
         return (
           <TouchableOpacity

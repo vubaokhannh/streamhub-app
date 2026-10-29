@@ -10,6 +10,7 @@ import { Image } from 'expo-image';
 import { Play, Sparkles } from 'lucide-react-native';
 import { Movie } from '@/types';
 import { StreamHubColors, Spacing, Typography, BorderRadius } from '@/constants/theme';
+import { useTheme } from '@/hooks';
 
 interface SeriesBackdropRailProps {
   title: string;
@@ -22,13 +23,15 @@ export function SeriesBackdropRail({
   movies,
   onMoviePress,
 }: SeriesBackdropRailProps) {
+  const { theme, isDark } = useTheme();
+
   if (!movies || movies.length === 0) return null;
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.accentBar} />
-        <Text style={styles.title}>{title}</Text>
+        <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
       </View>
 
       <ScrollView
@@ -41,7 +44,20 @@ export function SeriesBackdropRail({
             key={movie.id}
             activeOpacity={0.8}
             onPress={() => onMoviePress?.(movie)}
-            style={styles.card}
+            style={[
+              styles.card,
+              {
+                backgroundColor: theme.card,
+                borderColor: theme.border,
+              },
+              !isDark && {
+                shadowColor: '#000000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.06,
+                shadowRadius: 5,
+                elevation: 2,
+              },
+            ]}
           >
             <View style={styles.imageContainer}>
               <Image
@@ -75,10 +91,10 @@ export function SeriesBackdropRail({
 
             {/* Bottom Title & Year */}
             <View style={styles.info}>
-              <Text style={styles.movieTitle} numberOfLines={1}>
+              <Text style={[styles.movieTitle, { color: theme.text }]} numberOfLines={1}>
                 {movie.title}
               </Text>
-              <Text style={styles.subText}>
+              <Text style={[styles.subText, { color: theme.textMuted }]}>
                 {movie.genres.slice(0, 2).join(' • ')}
               </Text>
             </View>

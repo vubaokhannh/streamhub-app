@@ -10,6 +10,7 @@ import { ChevronRight } from 'lucide-react-native';
 import { Movie } from '@/types';
 import { MoviePosterCard } from '@/components/common/MoviePosterCard';
 import { StreamHubColors, Spacing, Typography } from '@/constants/theme';
+import { useTheme } from '@/hooks';
 
 interface MovieRailProps {
   title: string;
@@ -24,6 +25,8 @@ export function MovieRail({
   onMoviePress,
   onViewMore,
 }: MovieRailProps) {
+  const { theme } = useTheme();
+
   if (!movies || movies.length === 0) return null;
 
   return (
@@ -32,7 +35,7 @@ export function MovieRail({
       <View style={styles.header}>
         <View style={styles.titleWrapper}>
           <View style={styles.accentBar} />
-          <Text style={styles.title}>{title}</Text>
+          <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
         </View>
 
         {onViewMore ? (

@@ -3,3 +3,4 @@ export * from './Card';
 export * from './SectionHeader';
 export * from './Loading';
 export * from './MoviePosterCard';
+export * from './WelcomeSplashScreen';

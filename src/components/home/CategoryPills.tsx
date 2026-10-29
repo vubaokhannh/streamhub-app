@@ -6,6 +6,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { StreamHubColors, Spacing, Typography, BorderRadius } from '@/constants/theme';
+import { useTheme } from '@/hooks';
 
 export const HOME_CATEGORIES = [
   'Tất cả',
@@ -27,6 +28,8 @@ export function CategoryPills({
   onSelectCategory,
   categories = HOME_CATEGORIES,
 }: CategoryPillsProps) {
+  const { isDark } = useTheme();
+
   return (
     <ScrollView
       horizontal
@@ -42,13 +45,23 @@ export function CategoryPills({
             onPress={() => onSelectCategory(cat)}
             style={[
               styles.pill,
-              isSelected ? styles.pillActive : styles.pillInactive,
+              isSelected
+                ? styles.pillActive
+                : [
+                    styles.pillInactive,
+                    !isDark && {
+                      backgroundColor: 'rgba(0, 0, 0, 0.05)',
+                      borderColor: 'rgba(0, 0, 0, 0.08)',
+                    },
+                  ],
             ]}
           >
             <Text
               style={[
                 styles.text,
-                isSelected ? styles.textActive : styles.textInactive,
+                isSelected
+                  ? styles.textActive
+                  : [styles.textInactive, !isDark && { color: '#475569' }],
               ]}
             >
               {cat}

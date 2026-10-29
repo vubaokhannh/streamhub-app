@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header, HeaderProps } from './Header';
 import { Footer, FooterProps, BottomTabKey } from './Footer';
-import { StreamHubColors } from '@/constants/theme';
+import { useTheme } from '@/hooks';
 
 export interface MainLayoutProps {
   children: React.ReactNode;
@@ -33,9 +33,14 @@ export function MainLayout({
   style,
   contentStyle,
 }: MainLayoutProps) {
+  const { theme, isDark } = useTheme();
+
   return (
-    <SafeAreaView style={[styles.safeArea, style]} edges={['top', 'left', 'right']}>
-      <StatusBar style="light" />
+    <SafeAreaView
+      style={[styles.safeArea, { backgroundColor: theme.background }, style]}
+      edges={['top', 'left', 'right']}
+    >
+      <StatusBar style={isDark ? 'light' : 'dark'} />
 
       {/* Header */}
       {!hideHeader ? (
@@ -68,7 +73,6 @@ export function MainLayout({
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: StreamHubColors.background,
   },
   content: {
     flex: 1,

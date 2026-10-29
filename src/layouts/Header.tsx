@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { Play, Search, Bell, ChevronLeft } from 'lucide-react-native';
 import { StreamHubColors, Spacing, Typography, BorderRadius } from '@/constants/theme';
+import { useTheme } from '@/hooks';
 
 export interface HeaderProps {
   title?: string;
@@ -33,8 +34,19 @@ export function Header({
   bottomSlot,
   style,
 }: HeaderProps) {
+  const { theme, isDark } = useTheme();
+
   return (
-    <View style={[styles.container, style]}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.background,
+          borderBottomColor: theme.border,
+        },
+        style,
+      ]}
+    >
       {/* Top Bar Row */}
       <View style={styles.topRow}>
         {/* Left: Back button or Logo or Title */}
@@ -43,10 +55,13 @@ export function Header({
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={onBackPress}
-              style={styles.backButton}
+              style={[
+                styles.backButton,
+                { backgroundColor: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)' },
+              ]}
               accessibilityLabel="Quay lại"
             >
-              <ChevronLeft size={22} color="#FFFFFF" />
+              <ChevronLeft size={22} color={isDark ? '#FFFFFF' : '#0F172A'} />
             </TouchableOpacity>
           ) : null}
 
@@ -55,12 +70,12 @@ export function Header({
               <View style={styles.logoBadge}>
                 <Play size={13} color="#FFFFFF" fill="#FFFFFF" />
               </View>
-              <Text style={styles.brandText}>
+              <Text style={[styles.brandText, { color: isDark ? '#FFFFFF' : '#0F172A' }]}>
                 STREAM<Text style={styles.brandAccent}>HUB</Text>
               </Text>
             </View>
           ) : title ? (
-            <Text style={styles.titleText}>{title}</Text>
+            <Text style={[styles.titleText, { color: isDark ? '#FFFFFF' : '#0F172A' }]}>{title}</Text>
           ) : null}
         </View>
 
@@ -74,10 +89,13 @@ export function Header({
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={onSearchPress}
-                  style={styles.iconButton}
+                  style={[
+                    styles.iconButton,
+                    { backgroundColor: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)' },
+                  ]}
                   accessibilityLabel="Tìm kiếm"
                 >
-                  <Search size={18} color="#FFFFFF" />
+                  <Search size={18} color={isDark ? '#FFFFFF' : '#0F172A'} />
                 </TouchableOpacity>
               ) : null}
 
@@ -85,10 +103,13 @@ export function Header({
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={onNotificationPress}
-                  style={styles.iconButton}
+                  style={[
+                    styles.iconButton,
+                    { backgroundColor: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)' },
+                  ]}
                   accessibilityLabel="Thông báo"
                 >
-                  <Bell size={18} color="#FFFFFF" />
+                  <Bell size={18} color={isDark ? '#FFFFFF' : '#0F172A'} />
                   <View style={styles.notifyDot} />
                 </TouchableOpacity>
               ) : null}

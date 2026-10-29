@@ -4,6 +4,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { MainLayout, BottomTabKey } from '@/layouts';
 import {
@@ -103,9 +104,13 @@ export function HomeScreen() {
     Alert.alert('🔔 Thông báo', 'Bạn không có thông báo mới nào.');
   };
 
+  const router = useRouter();
+
   const handleTabChange = (tab: BottomTabKey) => {
     setActiveTab(tab);
-    if (tab === 'vip') {
+    if (tab === 'profile') {
+      router.push('/profile');
+    } else if (tab === 'vip') {
       handleUpgradeVip();
     } else if (tab !== 'home') {
       Alert.alert('Chuyển tab', `Đang mở màn hình "${tab}".`);
