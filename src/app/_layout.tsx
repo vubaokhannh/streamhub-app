@@ -1,18 +1,44 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ThemeProvider, useThemeContext } from '@/context';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+function NavigationStack() {
+  const { isDark, theme } = useThemeContext();
 
-SplashScreen.preventAutoHideAsync();
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <>
+      <StatusBar style={isDark ? 'light' : 'dark'} />
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: theme.card,
+          },
+          headerTintColor: theme.text,
+          headerShadowVisible: false,
+          contentStyle: {
+            backgroundColor: theme.background,
+          },
+        }}
+      >
+        <Stack.Screen
+          name="index"
+          options={{
+            title: 'Trang chủ',
+            headerShown: false,
+          }}
+        />
+      </Stack>
+    </>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <NavigationStack />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

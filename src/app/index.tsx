@@ -1,98 +1,117 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { Button, Card, Header } from '@/components';
+import { useTheme } from '@/hooks';
+import { Spacing, Typography } from '@/constants/theme';
 
 export default function HomeScreen() {
+  const { theme, isDark, toggleTheme } = useTheme();
+
+  const layers = [
+    { name: 'app/', desc: 'Màn hình & layout định tuyến Expo Router' },
+    { name: 'components/', desc: 'Các UI component dùng chung (Button, Card, Header...)' },
+    { name: 'constants/', desc: 'Theme colors, typography, spacing và hằng số' },
+    { name: 'context/', desc: 'State toàn cục và Context providers (ThemeProvider...)' },
+    { name: 'hooks/', desc: 'Custom hooks (useTheme, useColorScheme...)' },
+    { name: 'services/', desc: 'Tầng gọi API (fetch/axios) và local storage' },
+    { name: 'types/', desc: 'Định nghĩa kiểu dữ liệu TypeScript dùng chung' },
+    { name: 'utils/', desc: 'Hàm tiện ích format tiền tệ, ngày tháng...' },
+  ];
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <Header
+          title="MyApp"
+          subtitle="Kiến trúc Layer Modular"
+          rightAction={
+            <Button
+              title={isDark ? '☀️ Sáng' : '🌙 Tối'}
+              size="sm"
+              variant="outline"
+              onPress={toggleTheme}
+            />
+          }
+        />
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+        <Card style={styles.heroCard}>
+          <Text style={[styles.heroBadge, { color: theme.primary, backgroundColor: theme.primaryLight }]}>
+            Sẵn sàng phát triển
+          </Text>
+          <Text style={[styles.heroTitle, { color: theme.text }]}>
+            Dự án đã được tổ chức lại gọn gàng!
+          </Text>
+          <Text style={[styles.heroDesc, { color: theme.textMuted }]}>
+            Cấu trúc thư mục được phân lớp rõ ràng, chuẩn hóa TypeScript và tích hợp sẵn Light/Dark theme.
+          </Text>
+        </Card>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+        <Text style={[styles.sectionTitle, { color: theme.text }]}>Cấu trúc thư mục (src/)</Text>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+        <View style={styles.grid}>
+          {layers.map((layer) => (
+            <Card key={layer.name} style={styles.layerCard}>
+              <Text style={[styles.layerName, { color: theme.primary }]}>{layer.name}</Text>
+              <Text style={[styles.layerDesc, { color: theme.textMuted }]}>{layer.desc}</Text>
+            </Card>
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+  scrollContent: {
+    padding: Spacing.md,
+    gap: Spacing.md,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+  heroCard: {
+    gap: Spacing.sm,
   },
-  title: {
-    textAlign: 'center',
+  heroBadge: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: Spacing.sm,
+    paddingVertical: 2,
+    borderRadius: 999,
+    fontSize: Typography.size.xs,
+    fontWeight: Typography.weight.semibold,
+    overflow: 'hidden',
   },
-  code: {
-    textTransform: 'uppercase',
+  heroTitle: {
+    fontSize: Typography.size.lg,
+    fontWeight: Typography.weight.bold,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  heroDesc: {
+    fontSize: Typography.size.sm,
+    lineHeight: 20,
+  },
+  sectionTitle: {
+    fontSize: Typography.size.md,
+    fontWeight: Typography.weight.bold,
+    marginTop: Spacing.xs,
+  },
+  grid: {
+    gap: Spacing.sm,
+  },
+  layerCard: {
+    gap: 4,
+    padding: Spacing.sm + 4,
+  },
+  layerName: {
+    fontSize: Typography.size.sm,
+    fontWeight: Typography.weight.bold,
+    fontFamily: 'monospace',
+  },
+  layerDesc: {
+    fontSize: Typography.size.xs,
+    lineHeight: 18,
   },
 });
