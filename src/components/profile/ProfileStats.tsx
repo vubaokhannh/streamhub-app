@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Bookmark, Clock, Smartphone } from 'lucide-react-native';
 import { StreamHubColors, Spacing, Typography, BorderRadius } from '@/constants/theme';
 import { useTheme } from '@/hooks';
@@ -9,6 +9,7 @@ interface ProfileStatsProps {
   watchHours?: number;
   activeDevicesCount?: number;
   maxDevices?: number;
+  onDevicesPress?: () => void;
 }
 
 export function ProfileStats({
@@ -16,6 +17,7 @@ export function ProfileStats({
   watchHours = 34,
   activeDevicesCount = 2,
   maxDevices = 4,
+  onDevicesPress,
 }: ProfileStatsProps) {
   const { theme, isDark } = useTheme();
 
@@ -68,8 +70,14 @@ export function ProfileStats({
 
       <View style={[styles.divider, { backgroundColor: theme.border }]} />
 
-      {/* Stat 3: Devices */}
-      <View style={styles.statBox}>
+      {/* Stat 3: Devices (Clickable) */}
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={onDevicesPress}
+        style={styles.statBox}
+        accessibilityRole="button"
+        accessibilityLabel="Xem chi tiết thiết bị đăng nhập"
+      >
         <View
           style={[
             styles.iconCircle,
@@ -82,7 +90,7 @@ export function ProfileStats({
           {activeDevicesCount}/{maxDevices}
         </Text>
         <Text style={[styles.statLabel, { color: theme.textMuted }]}>Thiết bị</Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -98,35 +106,28 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: BorderRadius.lg,
     paddingVertical: Spacing.sm + 2,
-    paddingHorizontal: Spacing.sm,
   },
   statBox: {
     alignItems: 'center',
-    gap: 3,
+    gap: 4,
     flex: 1,
   },
   iconCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    width: 34,
+    height: 34,
+    borderRadius: 17,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 2,
   },
   statValue: {
-    color: '#FFFFFF',
     fontSize: Typography.size.md,
-    fontWeight: Typography.weight.heavy,
+    fontWeight: Typography.weight.bold,
   },
   statLabel: {
-    color: StreamHubColors.textMuted,
-    fontSize: 10,
-    fontWeight: Typography.weight.medium,
+    fontSize: Typography.size.xs,
   },
   divider: {
     width: 1,
     height: 28,
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
   },
 });

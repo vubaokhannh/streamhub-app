@@ -31,4 +31,19 @@ export interface UserDevice {
   deviceType: 'phone' | 'tablet' | 'tv' | 'web';
   lastActive: string;
   isCurrentDevice: boolean;
+  location?: string;
+  ipAddress?: string;
+  browserOrApp?: string;
+  loginDate?: string;
+}
+
+export interface LoginHistoryItem {
+  id: string;
+  deviceName: string;
+  deviceType: 'phone' | 'tablet' | 'tv' | 'web';
+  timestamp: string;
+  location: string;
+  ipAddress: string;
+  browserOrApp: string;
+  status: 'SUCCESS' | 'ACTIVE';
 }

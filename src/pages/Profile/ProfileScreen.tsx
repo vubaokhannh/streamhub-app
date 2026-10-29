@@ -10,7 +10,6 @@ import {
   ProfileHeroCard,
   ProfileStats,
   WatchHistoryRail,
-  ProfileDevicesList,
   ProfileSettingsSection,
   MovieRail,
 } from '@/components';
@@ -20,12 +19,12 @@ import {
   MOCK_DEVICES,
   RECOMMENDED_MOVIES,
 } from '@/constants';
-import { WatchHistoryItem, UserDevice, Movie } from '@/types';
+import { WatchHistoryItem, Movie } from '@/types';
 
 export function ProfileScreen() {
   const router = useRouter();
-  const [user, setUser] = useState(MOCK_USER);
-  const [devices, setDevices] = useState(MOCK_DEVICES);
+  const [user] = useState(MOCK_USER);
+  const [devices] = useState(MOCK_DEVICES);
   const [watchHistory] = useState(MOCK_WATCH_HISTORY);
   const [watchlist] = useState(RECOMMENDED_MOVIES.slice(0, 4));
 
@@ -53,24 +52,6 @@ export function ProfileScreen() {
 
   const handlePlayWatchlistMovie = (movie: Movie) => {
     Alert.alert('🎬 ' + movie.title, `Mở phim từ Danh sách yêu thích của bạn.`);
-  };
-
-  const handleRemoveDevice = (device: UserDevice) => {
-    Alert.alert(
-      '⚠️ Đăng xuất thiết bị',
-      `Bạn có chắc chắn muốn đăng xuất khỏi "${device.deviceName}"?`,
-      [
-        { text: 'Hủy', style: 'cancel' },
-        {
-          text: 'Đăng Xuất',
-          style: 'destructive',
-          onPress: () => {
-            setDevices((prev) => prev.filter((d) => d.id !== device.id));
-            Alert.alert('Thành công', `Đã ngắt kết nối với "${device.deviceName}".`);
-          },
-        },
-      ]
-    );
   };
 
   const handleLogout = () => {
@@ -141,6 +122,7 @@ export function ProfileScreen() {
           watchHours={34}
           activeDevicesCount={devices.length}
           maxDevices={4}
+          onDevicesPress={() => router.push('/devices-setting')}
         />
 
         {/* 3. Continue Watching / History */}
@@ -157,13 +139,7 @@ export function ProfileScreen() {
           onViewMore={() => Alert.alert('Xem tất cả', 'Mở toàn bộ danh sách yêu thích.')}
         />
 
-        {/* 5. Active Devices */}
-        <ProfileDevicesList
-          devices={devices}
-          onRemoveDevice={handleRemoveDevice}
-        />
-
-        {/* 6. Settings, Preferences & Logout */}
+        {/* 5. Settings, Preferences & Logout */}
         <ProfileSettingsSection
           onLogout={handleLogout}
           onHelpPress={handleHelp}

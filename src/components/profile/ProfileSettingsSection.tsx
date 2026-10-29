@@ -126,6 +126,42 @@ export function ProfileSettingsSection({
 
         <View style={[styles.divider, { backgroundColor: theme.border }]} />
 
+        {/* Logged-in Devices Setting Row - Navigates to dedicated subpage */}
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.settingRow}
+          onPress={() => router.push('/devices-setting')}
+          accessibilityRole="button"
+          accessibilityLabel="Cài đặt thiết bị đăng nhập"
+        >
+          <View style={styles.left}>
+            <View
+              style={[
+                styles.iconBox,
+                { backgroundColor: isDark ? 'rgba(56, 189, 248, 0.15)' : 'rgba(14, 165, 233, 0.12)' },
+              ]}
+            >
+              <Smartphone size={16} color="#0EA5E9" />
+            </View>
+            <View style={{ flex: 1 }}>
+              <View style={styles.rowTitleContainer}>
+                <Text style={[styles.settingTitle, { color: theme.text }]}>Thiết bị đăng nhập</Text>
+                <View style={[styles.themeBadge, { backgroundColor: isDark ? 'rgba(16, 185, 129, 0.15)' : 'rgba(16, 185, 129, 0.12)' }]}>
+                  <Text style={[styles.themeBadgeText, { color: '#10B981' }]}>
+                    4 thiết bị
+                  </Text>
+                </View>
+              </View>
+              <Text style={[styles.settingDesc, { color: theme.textMuted }]}>
+                iPhone 16 Pro Max (Thiết bị này)
+              </Text>
+            </View>
+          </View>
+          <ChevronRight size={16} color={isDark ? '#64748B' : '#94A3B8'} />
+        </TouchableOpacity>
+
+        <View style={[styles.divider, { backgroundColor: theme.border }]} />
+
         {/* Video Quality */}
         <TouchableOpacity activeOpacity={0.7} style={styles.settingRow}>
           <View style={styles.left}>

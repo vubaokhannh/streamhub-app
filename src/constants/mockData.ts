@@ -1,4 +1,4 @@
-import { Movie, Plan, UserProfile, WatchHistoryItem, UserDevice } from '@/types';
+import { Movie, Plan, UserProfile, WatchHistoryItem, UserDevice, LoginHistoryItem } from '@/types';
 
 export const HERO_MOVIES: Movie[] = [
   {
@@ -356,6 +356,10 @@ export const MOCK_DEVICES: UserDevice[] = [
     deviceType: 'phone',
     lastActive: 'Đang hoạt động',
     isCurrentDevice: true,
+    location: 'TP. Hồ Chí Minh, Việt Nam',
+    ipAddress: '113.161.45.102',
+    browserOrApp: 'Ứng dụng StreamHub iOS v2.4.0',
+    loginDate: 'Hôm nay, 10:15',
   },
   {
     id: 'dev-2',
@@ -363,6 +367,10 @@ export const MOCK_DEVICES: UserDevice[] = [
     deviceType: 'tablet',
     lastActive: '2 giờ trước',
     isCurrentDevice: false,
+    location: 'TP. Hồ Chí Minh, Việt Nam',
+    ipAddress: '113.161.45.102',
+    browserOrApp: 'Ứng dụng StreamHub iPadOS v2.4.0',
+    loginDate: '28/10/2026, 19:40',
   },
   {
     id: 'dev-3',
@@ -370,6 +378,10 @@ export const MOCK_DEVICES: UserDevice[] = [
     deviceType: 'tv',
     lastActive: 'Hôm qua',
     isCurrentDevice: false,
+    location: 'TP. Hồ Chí Minh, Việt Nam',
+    ipAddress: '14.169.88.21',
+    browserOrApp: 'StreamHub Smart TV v1.8.2',
+    loginDate: '27/10/2026, 20:30',
   },
   {
     id: 'dev-4',
@@ -377,5 +389,63 @@ export const MOCK_DEVICES: UserDevice[] = [
     deviceType: 'web',
     lastActive: '3 ngày trước',
     isCurrentDevice: false,
+    location: 'Hà Nội, Việt Nam',
+    ipAddress: '118.70.192.44',
+    browserOrApp: 'Safari 18.2 trên macOS Sequoia',
+    loginDate: '25/10/2026, 14:12',
   },
 ];
+
+export const MOCK_LOGIN_HISTORY: LoginHistoryItem[] = [
+  {
+    id: 'lh-1',
+    deviceName: 'iPhone 16 Pro Max',
+    deviceType: 'phone',
+    timestamp: 'Hôm nay, 10:15',
+    location: 'TP. Hồ Chí Minh, Việt Nam',
+    ipAddress: '113.161.45.102',
+    browserOrApp: 'StreamHub iOS App',
+    status: 'ACTIVE',
+  },
+  {
+    id: 'lh-2',
+    deviceName: 'iPad Pro M4 13-inch',
+    deviceType: 'tablet',
+    timestamp: '28/10/2026, 19:40',
+    location: 'TP. Hồ Chí Minh, Việt Nam',
+    ipAddress: '113.161.45.102',
+    browserOrApp: 'StreamHub iPadOS App',
+    status: 'SUCCESS',
+  },
+  {
+    id: 'lh-3',
+    deviceName: 'Samsung QLED 4K 65"',
+    deviceType: 'tv',
+    timestamp: '27/10/2026, 20:30',
+    location: 'TP. Hồ Chí Minh, Việt Nam',
+    ipAddress: '14.169.88.21',
+    browserOrApp: 'StreamHub Tizen TV',
+    status: 'SUCCESS',
+  },
+  {
+    id: 'lh-4',
+    deviceName: 'MacBook Pro M3 Max',
+    deviceType: 'web',
+    timestamp: '25/10/2026, 14:12',
+    location: 'Hà Nội, Việt Nam',
+    ipAddress: '118.70.192.44',
+    browserOrApp: 'Safari trên macOS',
+    status: 'SUCCESS',
+  },
+  {
+    id: 'lh-5',
+    deviceName: 'Chrome trên Windows 11',
+    deviceType: 'web',
+    timestamp: '18/10/2026, 09:25',
+    location: 'Đà Nẵng, Việt Nam',
+    ipAddress: '42.115.77.19',
+    browserOrApp: 'Google Chrome v130',
+    status: 'SUCCESS',
+  },
+];
+
