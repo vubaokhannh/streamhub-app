@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  useWindowDimensions,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { Play, Sparkles } from 'lucide-react-native';
@@ -24,6 +25,13 @@ export function SeriesBackdropRail({
   onMoviePress,
 }: SeriesBackdropRailProps) {
   const { theme, isDark } = useTheme();
+  const { width: windowWidth } = useWindowDimensions();
+
+  // Dynamic width for 2 backdrop cards (16:9) per screen without peeking
+  const paddingHorizontal = Spacing.md * 2;
+  const gap = Spacing.md;
+  const cardWidth = Math.ceil((windowWidth - paddingHorizontal - gap) / 2);
+  const cardImageHeight = Math.round(cardWidth * 0.56);
 
   if (!movies || movies.length === 0) return null;
 
@@ -47,6 +55,7 @@ export function SeriesBackdropRail({
             style={[
               styles.card,
               {
+                width: cardWidth,
                 backgroundColor: theme.card,
                 borderColor: theme.border,
               },
@@ -59,7 +68,7 @@ export function SeriesBackdropRail({
               },
             ]}
           >
-            <View style={styles.imageContainer}>
+            <View style={[styles.imageContainer, { height: cardImageHeight }]}>
               <Image
                 source={{ uri: movie.backdropUrl || movie.posterUrl }}
                 style={styles.image}
@@ -131,10 +140,9 @@ const styles = StyleSheet.create({
   },
   scrollList: {
     paddingHorizontal: Spacing.md,
-    gap: Spacing.sm + 2,
+    gap: Spacing.md,
   },
   card: {
-    width: 190,
     borderRadius: BorderRadius.md,
     backgroundColor: StreamHubColors.card,
     borderWidth: 1,

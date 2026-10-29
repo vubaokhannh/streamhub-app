@@ -83,10 +83,10 @@ export function ProfileScreen() {
   const handleTabChange = (tab: BottomTabKey) => {
     if (tab === 'home') {
       router.push('/');
+    } else if (tab === 'explore') {
+      router.push('/explore' as any);
     } else if (tab === 'vip') {
       router.push('/vip' as any);
-    } else if (tab !== 'profile') {
-      Alert.alert('Chuyển tab', `Đang mở màn hình "${tab}".`);
     }
   };
 

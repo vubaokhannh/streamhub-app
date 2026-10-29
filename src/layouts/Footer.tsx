@@ -34,6 +34,8 @@ export function Footer({ activeTab = 'home', onTabChange }: FooterProps) {
 
     if (tabKey === 'home') {
       router.push('/');
+    } else if (tabKey === 'explore') {
+      router.push('/explore' as any);
     } else if (tabKey === 'vip') {
       router.push('/vip' as any);
     } else if (tabKey === 'profile') {

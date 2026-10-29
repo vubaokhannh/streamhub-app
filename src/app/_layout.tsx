@@ -26,6 +26,7 @@ function NavigationStack() {
         }}
       >
         <Stack.Screen name="index" />
+        <Stack.Screen name="explore" />
         <Stack.Screen name="profile" />
         <Stack.Screen name="theme-setting" />
         <Stack.Screen name="devices-setting" />

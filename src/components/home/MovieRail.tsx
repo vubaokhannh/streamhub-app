@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  useWindowDimensions,
 } from 'react-native';
 import { ChevronRight } from 'lucide-react-native';
 import { Movie } from '@/types';
@@ -26,6 +27,12 @@ export function MovieRail({
   onViewMore,
 }: MovieRailProps) {
   const { theme } = useTheme();
+  const { width: windowWidth } = useWindowDimensions();
+  // Cơ chế tính toán linh hoạt: cardWidth = Math.ceil((windowWidth - paddingHorizontal - 2 * gap) / 3)
+  // Đảm bảo vừa vặn đúng 3 card trên màn hình, card thứ 4 hoàn toàn không bị ló ra
+  const paddingHorizontal = Spacing.md * 2;
+  const gap = Spacing.md;
+  const cardWidth = Math.ceil((windowWidth - paddingHorizontal - 2 * gap) / 3);
 
   if (!movies || movies.length === 0) return null;
 
@@ -60,6 +67,7 @@ export function MovieRail({
           <MoviePosterCard
             key={movie.id}
             movie={movie}
+            width={cardWidth}
             onPress={onMoviePress}
           />
         ))}
@@ -109,6 +117,6 @@ const styles = StyleSheet.create({
   },
   scrollList: {
     paddingHorizontal: Spacing.md,
-    gap: 10,
+    gap: Spacing.md,
   },
 });

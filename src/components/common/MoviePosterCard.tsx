@@ -4,11 +4,12 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  useWindowDimensions,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { Star, Sparkles } from 'lucide-react-native';
 import { Movie } from '@/types';
-import { StreamHubColors, Typography, BorderRadius } from '@/constants/theme';
+import { StreamHubColors, Typography, BorderRadius, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks';
 
 interface MoviePosterCardProps {
@@ -20,16 +21,24 @@ interface MoviePosterCardProps {
 export function MoviePosterCard({
   movie,
   onPress,
-  width = 118,
+  width,
 }: MoviePosterCardProps) {
   const { theme, isDark } = useTheme();
-  const height = Math.round(width * 1.5);
+  const { width: windowWidth } = useWindowDimensions();
+
+  // Cơ chế tính toán linh hoạt: cardWidth = Math.ceil((windowWidth - paddingHorizontal - 2 * gap) / 3)
+  // Đảm bảo vừa vặn đúng 3 card trên màn hình, card thứ 4 hoàn toàn không bị ló ra
+  const paddingHorizontal = Spacing.md * 2;
+  const gap = Spacing.md;
+  const defaultCardWidth = Math.ceil((windowWidth - paddingHorizontal - 2 * gap) / 3);
+  const cardWidth = width ?? defaultCardWidth;
+  const height = Math.round(cardWidth * 1.5);
 
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => onPress?.(movie)}
-      style={[styles.container, { width }]}
+      style={[styles.container, { width: cardWidth }]}
     >
       {/* Poster Image Container */}
       <View

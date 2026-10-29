@@ -109,6 +109,7 @@ export function SubscriptionScreen() {
       activeTab="vip"
       onTabChange={(tab) => {
         if (tab === 'home') router.push('/');
+        else if (tab === 'explore') router.push('/explore' as any);
         else if (tab === 'profile') router.push('/profile');
       }}
       headerProps={{

@@ -33,7 +33,7 @@ export const HERO_MOVIES: Movie[] = [
     backdropUrl:
       'https://image.tmdb.org/t/p/w1280/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg',
     posterUrl:
-      'https://image.tmdb.org/t/p/w500/abf8tZvngEG9fJj2Qj724X6iB26.jpg',
+      'https://image.tmdb.org/t/p/w500/fqldf2t8ztc9aiwn3k6mlX3tvRT.jpg',
     rating: 4.9,
     year: 2024,
     duration: 45,

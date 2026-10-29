@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  useWindowDimensions,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { Sparkles, Star } from 'lucide-react-native';
@@ -19,6 +20,14 @@ interface TopRankingRailProps {
 
 export function TopRankingRail({ movies, onMoviePress }: TopRankingRailProps) {
   const { theme, isDark } = useTheme();
+  const { width: windowWidth } = useWindowDimensions();
+
+  // Cơ chế tính toán linh hoạt: cardWidth = Math.ceil((windowWidth - paddingHorizontal - 2 * gap) / 3)
+  // Đảm bảo vừa vặn đúng 3 card trên màn hình, card thứ 4 hoàn toàn không bị ló ra
+  const paddingHorizontal = Spacing.md * 2;
+  const gap = Spacing.md;
+  const cardWidth = Math.ceil((windowWidth - paddingHorizontal - 2 * gap) / 3);
+  const cardHeight = Math.round(cardWidth * 1.5);
 
   if (!movies || movies.length === 0) return null;
 
@@ -42,7 +51,7 @@ export function TopRankingRail({ movies, onMoviePress }: TopRankingRailProps) {
               key={`${movie.id}-top-${index}`}
               activeOpacity={0.82}
               onPress={() => onMoviePress?.(movie)}
-              style={styles.cardItem}
+              style={[styles.cardItem, { width: cardWidth, height: cardHeight }]}
             >
               {/* Poster Card */}
               <View
@@ -109,12 +118,9 @@ const styles = StyleSheet.create({
   },
   scrollList: {
     paddingHorizontal: Spacing.md,
-    gap: Spacing.sm,
+    gap: Spacing.md,
   },
-  cardItem: {
-    width: 120,
-    height: 172,
-  },
+  cardItem: {},
   poster: {
     width: '100%',
     height: '100%',

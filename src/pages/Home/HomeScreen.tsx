@@ -97,7 +97,7 @@ export function HomeScreen() {
   };
 
   const handleSearch = () => {
-    Alert.alert('🔍 Tìm kiếm', 'Mở thanh tìm kiếm phim, diễn viên...');
+    router.push('/explore' as any);
   };
 
   const handleNotification = () => {
@@ -108,12 +108,12 @@ export function HomeScreen() {
 
   const handleTabChange = (tab: BottomTabKey) => {
     setActiveTab(tab);
-    if (tab === 'profile') {
+    if (tab === 'explore') {
+      router.push('/explore' as any);
+    } else if (tab === 'profile') {
       router.push('/profile');
     } else if (tab === 'vip') {
       router.push('/vip' as any);
-    } else if (tab !== 'home') {
-      Alert.alert('Chuyển tab', `Đang mở màn hình "${tab}".`);
     }
   };
 
