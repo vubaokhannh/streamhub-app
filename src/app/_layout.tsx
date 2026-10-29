@@ -29,6 +29,7 @@ function NavigationStack() {
         <Stack.Screen name="profile" />
         <Stack.Screen name="theme-setting" />
         <Stack.Screen name="devices-setting" />
+        <Stack.Screen name="vip" />
       </Stack>
 
       {showWelcome ? (

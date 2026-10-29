@@ -90,7 +90,7 @@ export function HomeScreen() {
         { text: 'Để sau', style: 'cancel' },
         {
           text: 'Đăng Ký Ngay',
-          onPress: () => Alert.alert('🎉 Thành công', 'Chuyển đến cổng thanh toán.'),
+          onPress: () => router.push('/vip' as any),
         },
       ]
     );
@@ -111,7 +111,7 @@ export function HomeScreen() {
     if (tab === 'profile') {
       router.push('/profile');
     } else if (tab === 'vip') {
-      handleUpgradeVip();
+      router.push('/vip' as any);
     } else if (tab !== 'home') {
       Alert.alert('Chuyển tab', `Đang mở màn hình "${tab}".`);
     }

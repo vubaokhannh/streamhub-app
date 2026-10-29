@@ -38,7 +38,7 @@ export function ProfileScreen() {
       `Gói hiện tại: ${user.vipPlanName}\nThời hạn đến: ${user.vipExpiresAt}\n\n• Phát đồng thời 4 thiết bị\n• Chất lượng 4K HDR & Dolby Atmos`,
       [
         { text: 'Đóng', style: 'cancel' },
-        { text: 'Gia Hạn Gói', onPress: () => Alert.alert('Gia hạn', 'Chuyển đến màn hình gia hạn gói cước.') },
+        { text: 'Gia Hạn Gói', onPress: () => router.push('/vip' as any) },
       ]
     );
   };
@@ -83,6 +83,8 @@ export function ProfileScreen() {
   const handleTabChange = (tab: BottomTabKey) => {
     if (tab === 'home') {
       router.push('/');
+    } else if (tab === 'vip') {
+      router.push('/vip' as any);
     } else if (tab !== 'profile') {
       Alert.alert('Chuyển tab', `Đang mở màn hình "${tab}".`);
     }
