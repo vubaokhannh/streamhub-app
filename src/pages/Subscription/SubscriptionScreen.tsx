@@ -94,32 +94,14 @@ export function SubscriptionScreen() {
   };
 
   const handleSubscribe = () => {
-    const finalPrice = getPlanTotalPrice(selectedPlan).toLocaleString('vi-VN');
-    const cycleText = billingCycle === 'yearly' ? '12 tháng (Tiết kiệm 20%)' : '1 tháng';
-
-    Alert.alert(
-      '🎉 Xác Nhận Đăng Ký',
-      `Bạn đã chọn: ${selectedPlan.name}\nThời hạn: ${cycleText}\nTổng thanh toán: ${finalPrice}đ\nPhương thức: ${paymentMethods.find((p) => p.id === selectedPayment)?.name
-      }\n\nChuyển tiếp đến cổng thanh toán an toàn?`,
-      [
-        { text: 'Hủy', style: 'cancel' },
-        {
-          text: 'Thanh Toán Ngay',
-          onPress: () => {
-            Alert.alert(
-              '👑 Đăng Ký Thành Công!',
-              `Chào mừng bạn đến với StreamHub ${selectedPlan.name}! Tài khoản của bạn đã được nâng cấp lên VIP.`,
-              [
-                {
-                  text: 'Trải Nghiệm Ngay',
-                  onPress: () => router.push('/'),
-                },
-              ]
-            );
-          },
-        },
-      ]
-    );
+    router.push({
+      pathname: '/checkout' as any,
+      params: {
+        planId: selectedPlan.id,
+        cycle: billingCycle,
+        paymentMethod: selectedPayment,
+      },
+    });
   };
 
   return (

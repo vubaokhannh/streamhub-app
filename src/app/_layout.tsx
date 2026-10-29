@@ -30,6 +30,7 @@ function NavigationStack() {
         <Stack.Screen name="theme-setting" />
         <Stack.Screen name="devices-setting" />
         <Stack.Screen name="vip" />
+        <Stack.Screen name="checkout" />
       </Stack>
 
       {showWelcome ? (
