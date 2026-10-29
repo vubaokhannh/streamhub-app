@@ -15,7 +15,7 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const deviceScheme = useDeviceColorScheme();
-  const [colorScheme, setColorScheme] = useState<ColorScheme>('system');
+  const [colorScheme, setColorScheme] = useState<ColorScheme>('dark');
 
   const isDark = useMemo(() => {
     if (colorScheme === 'system') {

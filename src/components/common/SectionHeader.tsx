@@ -3,13 +3,19 @@ import { View, Text, StyleSheet, ViewProps } from 'react-native';
 import { useTheme } from '@/hooks';
 import { Spacing, Typography } from '@/constants/theme';
 
-interface HeaderProps extends ViewProps {
+export interface SectionHeaderProps extends ViewProps {
   title: string;
   subtitle?: string;
   rightAction?: React.ReactNode;
 }
 
-export function Header({ title, subtitle, rightAction, style, ...rest }: HeaderProps) {
+export function SectionHeader({
+  title,
+  subtitle,
+  rightAction,
+  style,
+  ...rest
+}: SectionHeaderProps) {
   const { theme } = useTheme();
 
   return (
@@ -36,11 +42,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: Typography.size.xl,
+    fontSize: Typography.size.md + 1,
     fontWeight: Typography.weight.bold,
   },
   subtitle: {
-    fontSize: Typography.size.sm,
+    fontSize: Typography.size.xs,
     marginTop: 2,
   },
   action: {

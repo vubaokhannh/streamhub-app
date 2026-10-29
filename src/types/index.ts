@@ -1,25 +1,8 @@
 /**
- * Global TypeScript types & interfaces
+ * Barrel export for all TypeScript types
  */
 
-export type ColorScheme = 'light' | 'dark' | 'system';
-
-export interface ThemeColors {
-  primary: string;
-  primaryLight: string;
-  background: string;
-  card: string;
-  text: string;
-  textMuted: string;
-  border: string;
-  notification: string;
-  success: string;
-  warning: string;
-  danger: string;
-}
-
-export interface ApiResponse<T = unknown> {
-  data: T | null;
-  error: string | null;
-  status: number;
-}
+export * from './theme';
+export * from './api';
+export * from './movie';
+export * from './plan';

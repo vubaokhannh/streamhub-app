@@ -1,67 +1,74 @@
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import * as SecureStore from 'expo-secure-store';
 import { ApiResponse } from '@/types';
 
 /**
- * Base HTTP API client wrapper
+ * Axios instance configured for API requests
  */
-export class ApiService {
-  private baseUrl: string;
+const api: AxiosInstance = axios.create({
+  timeout: 15000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-  constructor(baseUrl: string = '') {
-    this.baseUrl = baseUrl;
-  }
-
-  async get<T>(endpoint: string, headers?: HeadersInit): Promise<ApiResponse<T>> {
+// Interceptor to attach auth token
+api.interceptors.request.use(
+  async (config) => {
     try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          ...headers,
-        },
-      });
+      const token = await SecureStore.getItemAsync('user_token');
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    } catch {
+      // Ignore secure store read errors on web or unsupported platforms
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
-      const data = await response.json();
+export class ApiService {
+  async get<T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+    try {
+      const response = await api.get<T>(url, config);
       return {
-        data,
-        error: response.ok ? null : (data?.message ?? 'Request failed'),
+        data: response.data,
+        error: null,
         status: response.status,
       };
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Network error';
+      const message = axios.isAxiosError(err)
+        ? (err.response?.data?.message ?? err.message)
+        : 'Network error';
       return {
         data: null,
         error: message,
-        status: 500,
+        status: axios.isAxiosError(err) ? (err.response?.status ?? 500) : 500,
       };
     }
   }
 
-  async post<T>(endpoint: string, body: unknown, headers?: HeadersInit): Promise<ApiResponse<T>> {
+  async post<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...headers,
-        },
-        body: JSON.stringify(body),
-      });
-
-      const data = await response.json();
+      const response = await api.post<T>(url, data, config);
       return {
-        data,
-        error: response.ok ? null : (data?.message ?? 'Request failed'),
+        data: response.data,
+        error: null,
         status: response.status,
       };
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Network error';
+      const message = axios.isAxiosError(err)
+        ? (err.response?.data?.message ?? err.message)
+        : 'Network error';
       return {
         data: null,
         error: message,
-        status: 500,
+        status: axios.isAxiosError(err) ? (err.response?.status ?? 500) : 500,
       };
     }
   }
 }
 
 export const apiService = new ApiService();
+export { api };
