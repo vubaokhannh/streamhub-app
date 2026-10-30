@@ -25,6 +25,7 @@ export const DarkColors: ThemeColors = {
   background: '#050816',
   card: '#0D1326',
   text: '#FFFFFF',
+  textSecondary: '#CBD5E1',
   textMuted: '#94A3B8',
   border: 'rgba(255, 255, 255, 0.08)',
   notification: '#EF4444',
@@ -39,6 +40,7 @@ export const LightColors: ThemeColors = {
   background: '#F8FAFC',
   card: '#FFFFFF',
   text: '#0F172A',
+  textSecondary: '#475569',
   textMuted: '#64748B',
   border: '#E2E8F0',
   notification: '#EF4444',
@@ -46,6 +48,7 @@ export const LightColors: ThemeColors = {
   warning: '#F59E0B',
   danger: '#EF4444',
 };
+
 
 export const Spacing = {
   xs: 4,

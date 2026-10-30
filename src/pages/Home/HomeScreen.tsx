@@ -53,14 +53,10 @@ export function HomeScreen() {
   const seriesList = SERIES_MOVIES;
 
   const handlePlayMovie = (movie: Movie) => {
-    Alert.alert(
-      '▶️ Đang phát: ' + movie.title,
-      `Chất lượng: 4K Ultra HD\nÂm thanh: Dolby Atmos\nThời lượng: ${movie.duration} phút\nĐộ tuổi: ${movie.ageRating}`,
-      [
-        { text: 'Đóng', style: 'cancel' },
-        { text: 'Bắt đầu xem', onPress: () => {} },
-      ]
-    );
+    router.push({
+      pathname: '/movie/[id]',
+      params: { id: movie.id },
+    } as any);
   };
 
   const handleAddList = (movie: Movie) => {
@@ -71,12 +67,10 @@ export function HomeScreen() {
   };
 
   const handleMovieInfo = (movie: Movie) => {
-    Alert.alert(
-      'ℹ️ ' + movie.title,
-      `${movie.originalTitle ? movie.originalTitle + '\n\n' : ''}${movie.description}\n\nĐạo diễn: ${
-        movie.director || 'Đang cập nhật'
-      }\nNăm: ${movie.year}\nĐánh giá: ⭐ ${movie.rating}/5.0`
-    );
+    router.push({
+      pathname: '/movie/[id]',
+      params: { id: movie.id },
+    } as any);
   };
 
   const handleUpgradeVip = () => {

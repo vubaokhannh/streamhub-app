@@ -10,6 +10,7 @@ export interface ThemeColors {
   background: string;
   card: string;
   text: string;
+  textSecondary?: string;
   textMuted: string;
   border: string;
   notification: string;

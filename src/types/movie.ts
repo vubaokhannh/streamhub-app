@@ -22,6 +22,24 @@ export interface Season {
   episodes: Episode[];
 }
 
+export interface MovieCast {
+  id: string;
+  name: string;
+  character: string;
+  avatarUrl: string;
+}
+
+export interface MovieComment {
+  id: string;
+  userName: string;
+  avatarUrl: string;
+  rating: number;
+  content: string;
+  createdAt: string;
+  likesCount: number;
+  isLiked?: boolean;
+}
+
 export interface Movie {
   id: string;
   title: string;
@@ -38,6 +56,7 @@ export interface Movie {
   genres: string[];
   director?: string;
   cast?: string[];
+  castMembers?: MovieCast[];
   isPremium?: boolean;
   isRecommended?: boolean;
   totalEpisodes?: number;
@@ -45,3 +64,4 @@ export interface Movie {
   videoUrl?: string;
   seasons?: Season[];
 }
+

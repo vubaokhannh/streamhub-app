@@ -32,6 +32,8 @@ function NavigationStack() {
         <Stack.Screen name="devices-setting" />
         <Stack.Screen name="vip" />
         <Stack.Screen name="checkout" />
+        <Stack.Screen name="movie/[id]" />
+        <Stack.Screen name="movie/index" />
       </Stack>
 
       {showWelcome ? (

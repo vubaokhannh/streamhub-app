@@ -1,4 +1,9 @@
-import { Movie, Plan, UserProfile, WatchHistoryItem, UserDevice, LoginHistoryItem } from '@/types';
+import { Movie, Plan, UserProfile, WatchHistoryItem, UserDevice, LoginHistoryItem, MovieComment, MovieCast } from '@/types';
+
+export const SAMPLE_VIDEO_URL =
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4';
+export const SAMPLE_VIDEO_TRAILER =
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
 
 export const HERO_MOVIES: Movie[] = [
   {
@@ -7,7 +12,7 @@ export const HERO_MOVIES: Movie[] = [
     originalTitle: 'Dune: Part Two',
     slug: 'dune-part-two',
     description:
-      'Paul Atreides hợp nhất với Chani và người Fremen trong cuộc chiến phục thù những kẻ đã hủy diệt gia tộc của anh.',
+      'Paul Atreides hợp nhất với Chani và người Fremen trong cuộc chiến phục thù những kẻ đã hủy diệt gia tộc của anh. Đứng trước sự lựa chọn nghiệt ngã giữa tình yêu của đời mình và vận mệnh của vũ trụ, Paul tìm mọi cách ngăn chặn tương lai kinh hoàng mà chỉ mình anh có thể thấy trước.',
     backdropUrl:
       'https://image.tmdb.org/t/p/w1280/xOMo8BRK7PfcJv9JCnx7s520QIq.jpg',
     posterUrl:
@@ -21,7 +26,35 @@ export const HERO_MOVIES: Movie[] = [
     director: 'Denis Villeneuve',
     isPremium: true,
     isRecommended: true,
-    language: 'Vietsub',
+    language: 'Vietsub + Thuyết minh',
+    videoUrl: SAMPLE_VIDEO_URL,
+    cast: ['Timothée Chalamet', 'Zendaya', 'Rebecca Ferguson', 'Javier Bardem', 'Austin Butler'],
+    castMembers: [
+      {
+        id: 'c-1',
+        name: 'Timothée Chalamet',
+        character: 'Paul Atreides',
+        avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80',
+      },
+      {
+        id: 'c-2',
+        name: 'Zendaya',
+        character: 'Chani',
+        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+      },
+      {
+        id: 'c-3',
+        name: 'Rebecca Ferguson',
+        character: 'Lady Jessica',
+        avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&q=80',
+      },
+      {
+        id: 'c-4',
+        name: 'Austin Butler',
+        character: 'Feyd-Rautha',
+        avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80',
+      },
+    ],
   },
   {
     id: 'hero-2',
@@ -29,7 +62,7 @@ export const HERO_MOVIES: Movie[] = [
     originalTitle: 'Arcane: League of Legends Season 2',
     slug: 'arcane-season-2',
     description:
-      'Sự cân bằng mong manh giữa thành phố công nghệ Piltover và khu hầm mỏ tăm tối Zaun bùng nổ thành cuộc chiến toàn diện.',
+      'Sự cân bằng mong manh giữa thành phố công nghệ Piltover và khu hầm mỏ tăm tối Zaun bùng nổ thành cuộc chiến toàn diện. Vi và Jinx giờ đây đứng ở hai đầu chiến tuyến, mỗi quyết định đều phải trả giá bằng xương máu.',
     backdropUrl:
       'https://image.tmdb.org/t/p/w1280/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg',
     posterUrl:
@@ -44,7 +77,93 @@ export const HERO_MOVIES: Movie[] = [
     isPremium: true,
     isRecommended: true,
     totalEpisodes: 9,
-    language: 'Lồng tiếng',
+    language: 'Lồng tiếng + Vietsub',
+    videoUrl: SAMPLE_VIDEO_URL,
+    cast: ['Hailee Steinfeld', 'Ella Purnell', 'Katie Leung', 'Reed Shannon'],
+    castMembers: [
+      {
+        id: 'c-5',
+        name: 'Hailee Steinfeld',
+        character: 'Vi (Voice)',
+        avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80',
+      },
+      {
+        id: 'c-6',
+        name: 'Ella Purnell',
+        character: 'Jinx (Voice)',
+        avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&auto=format&fit=crop&q=80',
+      },
+      {
+        id: 'c-7',
+        name: 'Katie Leung',
+        character: 'Caitlyn (Voice)',
+        avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80',
+      },
+    ],
+    seasons: [
+      {
+        id: 'sea-1',
+        seasonNumber: 2,
+        title: 'Mùa 2: Hồi Kết',
+        episodes: [
+          {
+            id: 'ep-201',
+            episodeNumber: 1,
+            title: 'Tập 1: Nặng trĩu vương miện',
+            duration: 42,
+            videoUrl: SAMPLE_VIDEO_URL,
+            thumbnailUrl: 'https://image.tmdb.org/t/p/w780/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg',
+          },
+          {
+            id: 'ep-202',
+            episodeNumber: 2,
+            title: 'Tập 2: Nhìn tất cả sụp đổ',
+            duration: 45,
+            videoUrl: SAMPLE_VIDEO_TRAILER,
+            thumbnailUrl: 'https://image.tmdb.org/t/p/w780/56v2KjBlU4XaOv9rVYEQypROD7P.jpg',
+          },
+          {
+            id: 'ep-203',
+            episodeNumber: 3,
+            title: 'Tập 3: Lời thú tội',
+            duration: 44,
+            videoUrl: SAMPLE_VIDEO_URL,
+            thumbnailUrl: 'https://image.tmdb.org/t/p/w780/7O4iVfOMQmdCSxhOg1WnzG1AgYT.jpg',
+          },
+          {
+            id: 'ep-204',
+            episodeNumber: 4,
+            title: 'Tập 4: Bức tranh Zaun',
+            duration: 41,
+            videoUrl: SAMPLE_VIDEO_URL,
+            thumbnailUrl: 'https://image.tmdb.org/t/p/w780/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg',
+          },
+        ],
+      },
+      {
+        id: 'sea-0',
+        seasonNumber: 1,
+        title: 'Mùa 1: Nguồn Cội',
+        episodes: [
+          {
+            id: 'ep-101',
+            episodeNumber: 1,
+            title: 'Tập 1: Chào mừng tới Piltover',
+            duration: 43,
+            videoUrl: SAMPLE_VIDEO_URL,
+            thumbnailUrl: 'https://image.tmdb.org/t/p/w780/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg',
+          },
+          {
+            id: 'ep-102',
+            episodeNumber: 2,
+            title: 'Tập 2: Một số bí mật tốt nhất nên để chôn giấu',
+            duration: 40,
+            videoUrl: SAMPLE_VIDEO_TRAILER,
+            thumbnailUrl: 'https://image.tmdb.org/t/p/w780/56v2KjBlU4XaOv9rVYEQypROD7P.jpg',
+          },
+        ],
+      },
+    ],
   },
   {
     id: 'hero-3',
@@ -52,7 +171,7 @@ export const HERO_MOVIES: Movie[] = [
     originalTitle: 'Oppenheimer',
     slug: 'oppenheimer',
     description:
-      'Câu chuyện về nhà vật lý lý thuyết J. Robert Oppenheimer, người dẫn đầu dự án Manhattan phát triển vũ khí hạt nhân đầu tiên của nhân loại.',
+      'Câu chuyện về nhà vật lý lý thuyết J. Robert Oppenheimer, người dẫn đầu dự án Manhattan phát triển vũ khí hạt nhân đầu tiên của nhân loại và những dằn vặt đạo đức khốc liệt sau vụ thử nghiệm Trinity.',
     backdropUrl:
       'https://image.tmdb.org/t/p/w1280/rM5Y09xC9YneFOT9crUR5IXTIOT.jpg',
     posterUrl:
@@ -67,6 +186,22 @@ export const HERO_MOVIES: Movie[] = [
     isPremium: false,
     isRecommended: true,
     language: 'Vietsub',
+    videoUrl: SAMPLE_VIDEO_URL,
+    cast: ['Cillian Murphy', 'Emily Blunt', 'Matt Damon', 'Robert Downey Jr.'],
+    castMembers: [
+      {
+        id: 'c-8',
+        name: 'Cillian Murphy',
+        character: 'J. Robert Oppenheimer',
+        avatarUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&auto=format&fit=crop&q=80',
+      },
+      {
+        id: 'c-9',
+        name: 'Robert Downey Jr.',
+        character: 'Lewis Strauss',
+        avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80',
+      },
+    ],
   },
 ];
 
@@ -446,6 +581,53 @@ export const MOCK_LOGIN_HISTORY: LoginHistoryItem[] = [
     ipAddress: '42.115.77.19',
     browserOrApp: 'Google Chrome v130',
     status: 'SUCCESS',
+  },
+];
+
+export const ALL_MOVIES: Movie[] = [
+  ...HERO_MOVIES,
+  ...RECOMMENDED_MOVIES,
+  ...SERIES_MOVIES,
+];
+
+export const getMovieById = (idOrSlug?: string): Movie => {
+  if (!idOrSlug) return HERO_MOVIES[0];
+  const found = ALL_MOVIES.find(
+    (m) => m.id === idOrSlug || m.slug === idOrSlug
+  );
+  return found || HERO_MOVIES[0];
+};
+
+export const MOCK_MOVIE_COMMENTS: MovieComment[] = [
+  {
+    id: 'cm-1',
+    userName: 'Minh Quân',
+    avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80',
+    rating: 5,
+    content: 'Hình ảnh 4K HDR nét căng đét, âm thanh Dolby Atmos nghe tiếng cát rung chuyển cả phòng. Cực phẩm điện ảnh năm nay!',
+    createdAt: '2 giờ trước',
+    likesCount: 42,
+    isLiked: true,
+  },
+  {
+    id: 'cm-2',
+    userName: 'Thu Thảo',
+    avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
+    rating: 5,
+    content: 'Diễn xuất của Timothée Chalamet và Austin Butler quá đỉnh cao. Xem trên StreamHub mượt mà không hề bị delay hay giật lag.',
+    createdAt: '5 giờ trước',
+    likesCount: 18,
+    isLiked: false,
+  },
+  {
+    id: 'cm-3',
+    userName: 'Hoàng Long',
+    avatarUrl: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80',
+    rating: 4,
+    content: 'Phim rất cuốn, âm nhạc của Hans Zimmer quá xuất sắc. Đăng ký gói VIP xem không hối hận tí nào.',
+    createdAt: 'Hôm qua',
+    likesCount: 9,
+    isLiked: false,
   },
 ];
 

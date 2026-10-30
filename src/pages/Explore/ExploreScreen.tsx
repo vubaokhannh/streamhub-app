@@ -8,23 +8,18 @@ import {
   TextInput,
   Image,
   useWindowDimensions,
-  Modal,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import {
   Search,
   X,
   Star,
-  Play,
-  Plus,
-  Check,
   Crown,
   Sparkles,
   Flame,
   Tv,
   Film,
   Compass,
-  Share2,
   Heart,
   Skull,
   Award,
@@ -177,11 +172,15 @@ export function ExploreScreen() {
   const [selectedGenre, setSelectedGenre] = useState('Tất cả');
   const [filterVipOnly, setFilterVipOnly] = useState(false);
   const [filterHighRating, setFilterHighRating] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-  const [savedMovieIds, setSavedMovieIds] = useState<string[]>(['hero-1', 'rec-2']);
-
   // Exactly 3 cards across the screen in Grid view
   const gridCardWidth = Math.floor((windowWidth - Spacing.md * 2 - 16) / 3);
+
+  const handleMoviePress = (movie: Movie) => {
+    router.push({
+      pathname: '/movie/[id]',
+      params: { id: movie.id },
+    } as any);
+  };
 
   // Filter movies by search query, genre, VIP, and rating
   const filteredMovies = useMemo(() => {
@@ -203,12 +202,6 @@ export function ExploreScreen() {
       return matchSearch && matchGenre && matchVip && matchRating;
     });
   }, [searchQuery, selectedGenre, filterVipOnly, filterHighRating]);
-
-  const toggleSaveMovie = (movieId: string) => {
-    setSavedMovieIds((prev) =>
-      prev.includes(movieId) ? prev.filter((id) => id !== movieId) : [...prev, movieId]
-    );
-  };
 
   const isFilteringOrSearching =
     searchQuery.trim().length > 0 ||
@@ -458,7 +451,7 @@ export function ExploreScreen() {
                   key={movie.id}
                   movie={movie}
                   width={gridCardWidth}
-                  onPress={setSelectedMovie}
+                  onPress={handleMoviePress}
                 />
               ))}
             </View>
@@ -467,174 +460,6 @@ export function ExploreScreen() {
 
         <View style={{ height: 20 }} />
       </ScrollView>
-
-      {/* ========================================================================= */}
-      {/* 4. INTERACTIVE MOVIE DETAIL MODAL                                         */}
-      {/* ========================================================================= */}
-      <Modal
-        visible={!!selectedMovie}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setSelectedMovie(null)}
-      >
-        {selectedMovie && (
-          <View style={styles.modalBackdrop}>
-            <View
-              style={[
-                styles.modalCard,
-                { backgroundColor: isDark ? '#0A0F1D' : '#FFFFFF' },
-              ]}
-            >
-              {/* Close Button */}
-              <TouchableOpacity
-                onPress={() => setSelectedMovie(null)}
-                style={styles.modalCloseBtn}
-                accessibilityLabel="Đóng chi tiết"
-              >
-                <X size={20} color="#FFFFFF" />
-              </TouchableOpacity>
-
-              {/* Backdrop Image Header */}
-              <View style={styles.modalImageContainer}>
-                <Image
-                  source={{ uri: selectedMovie.backdropUrl }}
-                  style={styles.modalBackdropImage}
-                  resizeMode="cover"
-                />
-                <View style={styles.modalImageOverlay} />
-
-                {selectedMovie.isPremium && (
-                  <View style={styles.modalVipTag}>
-                    <Crown size={12} color="#000000" fill="#000000" />
-                    <Text style={styles.modalVipTagText}>STREAMHUB VIP</Text>
-                  </View>
-                )}
-              </View>
-
-              {/* Modal Details Body */}
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.modalBody}
-              >
-                <Text style={[styles.modalTitle, { color: theme.text }]}>
-                  {selectedMovie.title}
-                </Text>
-                <Text style={[styles.modalOriginalTitle, { color: theme.textMuted }]}>
-                  {selectedMovie.originalTitle}
-                </Text>
-
-                {/* Metadata Row */}
-                <View style={styles.modalMetaRow}>
-                  <View style={styles.modalRatingBox}>
-                    <Star size={13} color="#F59E0B" fill="#F59E0B" />
-                    <Text style={styles.modalRatingText}>
-                      {selectedMovie.rating}
-                    </Text>
-                  </View>
-
-                  <Text style={[styles.modalMetaText, { color: theme.textMuted }]}>
-                    {selectedMovie.year}
-                  </Text>
-
-                  <View style={styles.ageBadge}>
-                    <Text style={styles.ageBadgeText}>
-                      {selectedMovie.ageRating}
-                    </Text>
-                  </View>
-
-                  <Text style={[styles.modalMetaText, { color: theme.textMuted }]}>
-                    {selectedMovie.duration} phút
-                  </Text>
-
-                  <Text
-                    style={[
-                      styles.modalMetaText,
-                      { color: StreamHubColors.primary, fontWeight: '700' },
-                    ]}
-                  >
-                    4K HDR
-                  </Text>
-                </View>
-
-                {/* Action CTA Buttons */}
-                <View style={styles.modalActionsRow}>
-                  <TouchableOpacity
-                    activeOpacity={0.88}
-                    onPress={() => setSelectedMovie(null)}
-                    style={styles.modalPlayBtn}
-                  >
-                    <Play size={18} color="#FFFFFF" fill="#FFFFFF" />
-                    <Text style={styles.modalPlayBtnText}>Phát Phim</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => toggleSaveMovie(selectedMovie.id)}
-                    style={[
-                      styles.modalSecondaryBtn,
-                      { borderColor: theme.border },
-                    ]}
-                  >
-                    {savedMovieIds.includes(selectedMovie.id) ? (
-                      <Check size={20} color="#10B981" />
-                    ) : (
-                      <Plus size={20} color={theme.text} />
-                    )}
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => {}}
-                    style={[
-                      styles.modalSecondaryBtn,
-                      { borderColor: theme.border },
-                    ]}
-                  >
-                    <Share2 size={18} color={theme.text} />
-                  </TouchableOpacity>
-                </View>
-
-                {/* Synopsis */}
-                <Text style={[styles.modalSynopsis, { color: theme.text }]}>
-                  {selectedMovie.description}
-                </Text>
-
-                {/* Genres & Details */}
-                <View style={styles.modalDetailsList}>
-                  <View style={styles.modalDetailRow}>
-                    <Text style={[styles.modalDetailLabel, { color: theme.textMuted }]}>
-                      Thể loại:
-                    </Text>
-                    <Text style={[styles.modalDetailValue, { color: theme.text }]}>
-                      {selectedMovie.genres.join(', ')}
-                    </Text>
-                  </View>
-
-                  {selectedMovie.director && (
-                    <View style={styles.modalDetailRow}>
-                      <Text style={[styles.modalDetailLabel, { color: theme.textMuted }]}>
-                        Đạo diễn:
-                      </Text>
-                      <Text style={[styles.modalDetailValue, { color: theme.text }]}>
-                        {selectedMovie.director}
-                      </Text>
-                    </View>
-                  )}
-
-                  <View style={styles.modalDetailRow}>
-                    <Text style={[styles.modalDetailLabel, { color: theme.textMuted }]}>
-                      Âm thanh & Phụ đề:
-                    </Text>
-                    <Text style={[styles.modalDetailValue, { color: theme.text }]}>
-                      Dolby Atmos • {selectedMovie.language}
-                    </Text>
-                  </View>
-                </View>
-              </ScrollView>
-            </View>
-          </View>
-        )}
-      </Modal>
     </MainLayout>
   );
 }
@@ -783,154 +608,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     maxWidth: 260,
   },
-
-  /* Modal Details */
-  modalBackdrop: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    justifyContent: 'flex-end',
-  },
-  modalCard: {
-    borderTopLeftRadius: BorderRadius.xl,
-    borderTopRightRadius: BorderRadius.xl,
-    maxHeight: '88%',
-    overflow: 'hidden',
-  },
-  modalCloseBtn: {
-    position: 'absolute',
-    top: 14,
-    right: 14,
-    zIndex: 10,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: 'rgba(0, 0, 0, 0.65)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modalImageContainer: {
-    height: 200,
-    width: '100%',
-    position: 'relative',
-  },
-  modalBackdropImage: {
-    width: '100%',
-    height: '100%',
-  },
-  modalImageOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.35)',
-  },
-  modalVipTag: {
-    position: 'absolute',
-    bottom: 12,
-    left: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    backgroundColor: '#F59E0B',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 4,
-  },
-  modalVipTagText: {
-    color: '#000000',
-    fontSize: 10,
-    fontWeight: Typography.weight.heavy,
-  },
-  modalBody: {
-    padding: 16,
-    gap: 12,
-    paddingBottom: 40,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: Typography.weight.bold,
-  },
-  modalOriginalTitle: {
-    fontSize: 13,
-    marginTop: -8,
-  },
-  modalMetaRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  modalRatingBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 3,
-  },
-  modalRatingText: {
-    fontSize: 13,
-    color: '#F59E0B',
-    fontWeight: Typography.weight.bold,
-  },
-  modalMetaText: {
-    fontSize: 12,
-  },
-  ageBadge: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  ageBadgeText: {
-    color: '#FFFFFF',
-    fontSize: 10,
-    fontWeight: Typography.weight.bold,
-  },
-  modalActionsRow: {
-    flexDirection: 'row',
-    gap: 10,
-    marginVertical: 4,
-  },
-  modalPlayBtn: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    backgroundColor: StreamHubColors.primary,
-    height: 44,
-    borderRadius: BorderRadius.md,
-  },
-  modalPlayBtnText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: Typography.weight.bold,
-  },
-  modalSecondaryBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: BorderRadius.md,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modalSynopsis: {
-    fontSize: 13,
-    lineHeight: 20,
-  },
-  modalDetailsList: {
-    gap: 6,
-    paddingTop: 4,
-  },
-  modalDetailRow: {
-    flexDirection: 'row',
-    gap: 6,
-  },
-  modalDetailLabel: {
-    fontSize: 12,
-    width: 120,
-  },
-  modalDetailValue: {
-    fontSize: 12,
-    flex: 1,
-    fontWeight: Typography.weight.medium,
-  },
 });
+
